@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import json
+import settings
 
 @csrf_exempt
 def email_view(request):
@@ -12,7 +13,7 @@ def email_view(request):
         subject = "Subject for your email"
         message = body.get("message")
         from_email = body.get("from_email")
-        recipient_list = ["matthewklein345@gmail.com"]  # Replace with the recipient's email address
+        recipient_list = [settings.EMAIL_RECIPIENT]  # Replace with the recipient's email address
         if message and from_email:
             # send_mail(subject, message, from_email, recipient_list)
             return HttpResponse("Email sent successfully!", status=200)

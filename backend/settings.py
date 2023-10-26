@@ -102,6 +102,7 @@ DATABASES = {
 
 EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST=os.environ.get('EMAIL_HOST')
+EMAIL_RECIPIENT=os.environ.get('EMAIL_RECIPIENT')
 EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT=int(os.environ.get('EMAIL_PORT'))
