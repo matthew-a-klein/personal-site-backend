@@ -108,6 +108,7 @@ EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT=int(os.environ.get('EMAIL_PORT'))
 EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS') == 'True'
 EMAIL_USE_SSL=os.environ.get('EMAIL_USE_SSL') == 'True'
+WEBSITE_NAME=os.environ.get('WEBSITE_NAME')
 
 
 # Password validation
@@ -151,6 +152,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
     'localhost:3000',
