@@ -129,6 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+RECAPTCHA_SECRET_KEY=os.environ.get("RECAPTCHA_SECRET_KEY")
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -153,11 +154,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
-    'localhost:3000',
-    "http://127.0.0.1:3000"
+    'localhost:3030',
+    "http://127.0.0.1:3030"
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "http://127.0.0.1:3000"
+    'http://localhost:3030',
+    "http://127.0.0.1:3030"
 ]

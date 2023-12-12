@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import json
+import requests
 from .import settings
+from .utils.get_client_ip import get_client_ip
 
 @csrf_exempt
 def email_view(request):
@@ -12,8 +14,9 @@ def email_view(request):
         from_name=body.get("from_name")
         message = body.get("message")
         reply_email = body.get("from_email")
+        token=body.get("token")
 
-        if message  and from_name and reply_email:
+        if message  and from_name and reply_email and verify_token(request, token):
             email_message(from_name, reply_email, message)
             return HttpResponse("Email sent successfully!", status=200)
         else:
@@ -23,6 +26,7 @@ def email_view(request):
     
 def email_message(from_name, reply_email, message):
     html_message = generate_html(from_name, reply_email, message)
+
     send_mail(
     subject=f"message from {from_name} via {settings.WEBSITE_NAME}",
     message="",
@@ -38,3 +42,22 @@ def generate_html(from_name, reply_email, message):
     html_content = f"<h3>You recieved an email from {from_name} at {reply_email}</h3>"
     html_content += f"<p>{message}</p>"
     return html_content
+
+
+def verify_token( request, token, *args, **kwargs):
+    r = requests.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      data={
+        'secret': settings.RECAPTCHA_SECRET_KEY,
+        'response': token,
+        'remoteip': get_client_ip(request),  # Optional
+      }
+    )
+
+    if r.json()['success']:
+      # Successfuly validated
+      # Handle the submission, with confidence!
+      return True
+    # Error while verifying the captcha 
+    return HttpResponse('error', status=406)
+
