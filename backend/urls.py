@@ -18,7 +18,7 @@ from django.urls import path
 from .views import email_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     path('api/email/', email_view)
     
 ]
