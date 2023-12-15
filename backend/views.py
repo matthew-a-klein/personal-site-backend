@@ -15,12 +15,14 @@ def email_view(request):
         message = body.get("message")
         reply_email = body.get("from_email")
         token=body.get("token")
-
-        if message  and from_name and reply_email and verify_token(request, token):
-            email_message(from_name, reply_email, message)
-            return HttpResponse("Email sent successfully!", status=200)
+        if verify_token(request, token):
+          if message  and from_name and reply_email:
+              email_message(from_name, reply_email, message)
+              return HttpResponse("Email sent successfully!", status=200)
+          else:
+              return HttpResponse("Please provide a message and sender's email address.", status=400)
         else:
-            return HttpResponse("Please provide a message and sender's email address.", status=400)
+          return HttpResponse("Please authenticate you are not a robot", statue=406)
     else:
         return HttpResponse("Invalid request method. Use POST.", status=405)
     
@@ -53,11 +55,11 @@ def verify_token( request, token, *args, **kwargs):
         'remoteip': get_client_ip(request),  # Optional
       }
     )
-
+    
     if r.json()['success']:
       # Successfuly validated
       # Handle the submission, with confidence!
       return True
     # Error while verifying the captcha 
-    return HttpResponse('error', status=406)
+    return False
 
